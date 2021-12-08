@@ -91,7 +91,6 @@
 				EB1529B937F567F583D64AFD /* Pods-mccExampleApp-mccExampleAppTests.debug.xcconfig */,
 				A0B39BC2529BF41094B294B2 /* Pods-mccExampleApp-mccExampleAppTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -485,6 +484,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XF837TNLGP;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = mccExampleApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -511,6 +511,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XF837TNLGP;
 				INFOPLIST_FILE = mccExampleApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

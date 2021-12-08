@@ -329,6 +329,8 @@ PODS:
   - React-jsinspector (0.66.3)
   - React-logger (0.66.3):
     - glog
+  - react-native-image-picker (4.4.2):
+    - React-Core
   - react-native-mlkit-ocr (0.2.3):
     - GoogleMLKit/TextRecognition (= 2.2.0)
     - React
@@ -442,6 +444,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-mlkit-ocr (from `../node_modules/react-native-mlkit-ocr`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -522,6 +525,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-image-picker:
+    :path: "../node_modules/react-native-image-picker"
   react-native-mlkit-ocr:
     :path: "../node_modules/react-native-mlkit-ocr"
   React-perflogger:
@@ -595,6 +600,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 433a691aee158533a6a6ee9c86cb4a1684fa2853
   React-jsinspector: d9c8eb0b53f0da206fed56612b289fec84991157
   React-logger: e522e76fa3e9ec3e7d7115b49485cc065cf4ae06
+  react-native-image-picker: 6a18bc5c053ba096ec9b027bd497129cfda30e6b
   react-native-mlkit-ocr: f56ed69f7280b4a6feeb78c7244472ba6159734e
   React-perflogger: 73732888d37d4f5065198727b167846743232882
   React-RCTActionSheet: 96c6d774fa89b1f7c59fc460adc3245ba2d7fd79
@@ -613,4 +619,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: c8a98cd81bca363bfdcd194ab8878a8481a97fbc
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.10.1

@@ -5241,6 +5241,11 @@ react-native-codegen@^0.0.7:
     jscodeshift "^0.11.0"
     nullthrows "^1.1.1"
 
+react-native-ffmpeg@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/react-native-ffmpeg/-/react-native-ffmpeg-0.5.2.tgz#4c60fa4e773ae82ed59628a5f23dd86f74f1c8f5"
+  integrity sha512-YxKWI9kPo4nDtAzNO+MIMIu56rfaixJrviQBKvdvmFD09oWH0GhKurJ+uJOvTbN3T7eEYCE0kUzK1puPDsniAA==
+
 react-native-image-base64@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/react-native-image-base64/-/react-native-image-base64-0.1.4.tgz#0a4687740de9b04df63e649c5946fc646bc0f4e9"

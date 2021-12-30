@@ -1,4 +1,4 @@
-import {Button, PermissionsAndroid, View} from 'react-native';
+import {Button, PermissionsAndroid, Text, View} from 'react-native';
 
 import {RNFFmpeg} from 'react-native-ffmpeg';
 import React from 'react';
@@ -9,7 +9,7 @@ const {READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE} =
 const params = [
   '-y', // overwrite output file
   '-i',
-  '/sdcard/file_example_MP4_1920_18MG.mp4',
+  '/sdcard/DCIM/file_example_MP4_1920_18MG.mp4',
   '-c:v', // TODO: use same codecs as for cloud
   'mpeg4',
   '/sdcard/DCIM/out.mp4',
@@ -35,28 +35,36 @@ async function grantPermissions() {
   return false;
 }
 
-async function run() {
-  if (!(await grantPermissions())) return;
-
-  const start = performance.now();
-  const result = await RNFFmpeg.executeWithArguments(params);
-  const end = performance.now();
-
-  console.log(`FFmpeg process exited with rc=${result}.`);
-  if (result) return;
-
-  const seconds = ((end - start) / 1000).toFixed(3);
-  console.log(`${seconds} seconds`);
-}
-
 export default function App2() {
-  const handleClick = () => {
-    run();
+  const [text, setText] = React.useState('');
+
+  const handleClick = async () => {
+    setText('Work in progress...');
+
+    if (!(await grantPermissions())) {
+      setText('Permission denied');
+      return;
+    }
+
+    const start = performance.now();
+    console.log(params);
+    // const result = await RNFFmpeg.execute(params);
+    const result = await RNFFmpeg.executeWithArguments(params);
+    const end = performance.now();
+
+    if (result) {
+      setText(`FFmpeg process exited with rc=${result}.`);
+      return;
+    }
+
+    const seconds = ((end - start) / 1000).toFixed(3);
+    setText(`${seconds} seconds`);
   };
 
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Button onPress={handleClick} title="Run ffmpeg" />
+      <Text>{text}</Text>
     </View>
   );
 }

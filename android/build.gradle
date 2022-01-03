@@ -7,6 +7,7 @@ buildscript {
         compileSdkVersion = 30
         targetSdkVersion = 28
         ndkVersion = "21.4.7075529"
+        reactNativeFFmpegPackage = "min-gpl"
     }
     repositories {
         google()

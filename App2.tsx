@@ -1,19 +1,12 @@
-import {Button, PermissionsAndroid, Text, View} from 'react-native';
-
-import {RNFFmpeg} from 'react-native-ffmpeg';
 import React from 'react';
+import {Button, PermissionsAndroid, Platform, Text, View} from 'react-native';
+import RNFS from 'react-native-fs';
+import {launchImageLibrary} from 'react-native-image-picker';
+import CameraRoll from '@react-native-community/cameraroll';
+import {RNFFmpeg, RNFFprobe} from 'react-native-ffmpeg';
 
 const {READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE} =
   PermissionsAndroid.PERMISSIONS;
-
-const params = [
-  '-y', // overwrite output file
-  '-i',
-  '/sdcard/DCIM/file_example_MP4_1920_18MG.mp4',
-  '-c:v', // TODO: use same codecs as for cloud
-  'mpeg4',
-  '/sdcard/DCIM/out.mp4',
-];
 
 async function grantPermissions() {
   try {
@@ -41,15 +34,55 @@ export default function App2() {
   const handleClick = async () => {
     setText('Work in progress...');
 
-    if (!(await grantPermissions())) {
-      setText('Permission denied');
-      return;
+    const selectedVideo = await launchImageLibrary({
+      mediaType: 'video',
+      selectionLimit: 1,
+    });
+    var selectedVideoUri = selectedVideo.assets[0].uri;
+
+    if (Platform.OS == 'android') {
+      if (!(await grantPermissions())) {
+        setText('Permission denied');
+        return;
+      }
+      await RNFS.copyFile(
+        selectedVideoUri,
+        RNFS.CachesDirectoryPath + '/input.mp4',
+      );
+      selectedVideoUri = RNFS.CachesDirectoryPath + '/input.mp4';
     }
 
     const start = performance.now();
-    console.log(params);
-    // const result = await RNFFmpeg.execute(params);
-    const result = await RNFFmpeg.executeWithArguments(params);
+    const probeResult = await RNFFprobe.getMediaInformation(selectedVideoUri);
+    const duration = Number(probeResult.getMediaProperties()['duration']);
+    const targetSize = 7 * 1000 * 1000 * 8; // 8 MB in bits (for some reason it can exceed 8 MB so I chose 7 MB)
+    const ceilDuration = Math.ceil(duration);
+    const totalBitrate = Math.round(targetSize / ceilDuration);
+    const audioBitrate = 128 * 1000;
+    const videoBitrate = totalBitrate - audioBitrate;
+
+    const ffmpegParams = [
+      '-y',
+      '-i',
+      selectedVideoUri,
+      '-b:v',
+      videoBitrate.toString(),
+      '-maxrate',
+      videoBitrate.toString(),
+      '-b:a',
+      audioBitrate.toString(),
+      '-c:v',
+      'libx264',
+      '-rc-lookahead',
+      '6',
+      '-c:a',
+      'aac',
+      '-pix_fmt',
+      'yuv420p',
+      RNFS.TemporaryDirectoryPath + '/out.mp4',
+    ];
+
+    const result = await RNFFmpeg.executeWithArguments(ffmpegParams);
     const end = performance.now();
 
     if (result) {
@@ -57,14 +90,21 @@ export default function App2() {
       return;
     }
 
+    CameraRoll.save(RNFS.TemporaryDirectoryPath + '/out.mp4');
+
     const seconds = ((end - start) / 1000).toFixed(3);
     setText(`${seconds} seconds`);
   };
 
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
       <Button onPress={handleClick} title="Run ffmpeg" />
-      <Text>{text}</Text>
+      <Text style={{color: '#00FF00'}}>{text}</Text>
     </View>
   );
 }
